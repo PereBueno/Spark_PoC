@@ -30,7 +30,7 @@ public class JavaStatusTrackerDemo {
     }
 
     public static void main (String[] args) throws Exception{
-        SparkSession spark = SparkSession.builder().master("local").appName("Status tracker").getOrCreate();
+        SparkSession spark = SparkSession.builder().master("local[4]").appName("Status tracker").getOrCreate();
 
         JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
