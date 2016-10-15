@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public final class JavaWordCount{
     private static final Pattern SPACE = Pattern.compile(" ");
-    private static String fileToProcess = "Current_Employee_Names__Salaries__and_Position_Titles.csv";
+    private static String fileToProcess = "src/main/resources/input.txt";
 
     public static void main(String[] args) throws Exception{
         System.out.println("Testing");
@@ -24,7 +24,8 @@ public final class JavaWordCount{
             fileToProcess = args[1];
         }
 
-        SparkSession spark = SparkSession.builder().appName("WordCount").getOrCreate();
+        //TODO: This line sets master as local instead of a real cluster, just for dev purposes
+        SparkSession spark = SparkSession.builder().master("local").appName("WordCount").getOrCreate();
 
         JavaRDD<String> lines = spark.read().textFile(fileToProcess).javaRDD();
 
