@@ -25,7 +25,7 @@ public final class JavaWordCount{
         }
 
         //TODO: This line sets master as local instead of a real cluster, just for dev purposes
-        SparkSession spark = SparkSession.builder().master("local").appName("WordCount").getOrCreate();
+        SparkSession spark = SparkSession.builder().master("local[5]").appName("WordCount").getOrCreate();
 
         JavaRDD<String> lines = spark.read().textFile(fileToProcess).javaRDD();
 
@@ -57,6 +57,14 @@ public final class JavaWordCount{
         for (Tuple2<?,?> tuple : output){
             System.out.println(tuple._1() + " - " + tuple._2());
         }
-        spark.stop();
+
+        while (true){
+            try {
+                Thread.sleep(5000L);
+            }catch(InterruptedException ex){
+                spark.stop();
+            }
+        }
+
     }
 }
